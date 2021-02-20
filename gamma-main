@@ -1,0 +1,131 @@
+# the purpose of this code is to emulate "Gamma(Garry)" from the web series "Red vs. Blue"
+# it is a code that runs Knock-knock jokes from external source but it speaks as well.
+# you can add your own jokes to jokelst.txt in the same format as seen there
+
+# install pyttsx3 (the voice module is necessary for optimal experience)
+import pyttsx3
+import random
+# set up
+
+engine = pyttsx3.init()
+
+# more set up
+engine.setProperty("rate", 150)
+# Gamma's official voice is "Fred" on Mac OS X system voice synthesizer
+# I run windows so idk if you have to enable it or something
+
+
+# after the first obligatory shisno joke, the real jokes will start. "real" jokes.
+
+
+d = {}
+with open("jokelst.txt", "r") as f:
+    for line in f:
+        key, value = line.strip().split("|")
+        d[key] = value
+
+l = list(d.items())
+random.shuffle(l)
+d = dict(l)
+
+
+# the main loop.
+def main():
+    keys_list = list(d)
+    for i in range(len(keys_list)):
+        keyy = keys_list[i]
+        valuee = d[keyy]
+        currentjoke = Joke(keyy, valuee)
+        currentjoke.tell()
+
+
+
+# start here
+
+print("Knock-Knock.")
+engine.say("Knock-Knock.")
+engine.runAndWait()
+gamma = input()
+if gamma == "Who's there?" or gamma == "whos there" or gamma == "whos there?" or gamma == "Whos there" or gamma == "who's there":
+    print("You are.")
+    engine.say("You are.")
+    engine.runAndWait()
+    gamma = input()
+else:
+    print("You're not fun.")
+    engine.say("You're not fun.")
+
+
+if gamma == "You are who?" or gamma == "you are who" or gamma == "you are who?" or gamma == "You are who":
+    print("You are a dirty, dirty shizno. Ha ha ha.\n")
+    engine.say("You are a dirty dirty shisno. Ha ha ha.")
+    engine.runAndWait()
+
+print("\nWant to hear another one?")
+engine.say("Want to hear another one?")
+engine.runAndWait()
+gamma = input()
+if gamma == "No." or gamma == "no" or gamma == "No" or gamma == "no.":
+    print("See you in the next loop.")
+    engine.say("See you in the next loop.")
+    engine.runAndWait()
+    quit()
+
+
+# cycle of jokes from a joke list start here
+# frame for the cycle. any list formatted correctly can use this
+class Joke:
+    response1 = {"Who's there?", "whos there", "whos there?", "Whos there", "who's there"}
+
+    def __init__(self, you, gary):
+        self.you = you
+        self.gary = gary
+
+    def tell(self):
+        print("Knock-Knock.")
+        engine.say("Knock-Knock.")
+        engine.runAndWait()
+        response = input()
+
+
+
+        while not (response in self.response1):
+            print("\nYou know what I want from you.")
+            engine.say("You know what I want from you.")
+            engine.runAndWait()
+            print("Knock-Knock")
+            engine.say("Knock-Knock.")
+            engine.runAndWait()
+            response = input()
+
+
+        print("{}".format(self.you))
+        engine.say(self.you)
+        engine.runAndWait()
+        response = input()
+        response2 = ("{} who?".format(self.you)) or ("{} who".format(self.you))
+
+        while not (response in response2):
+            print("\nYou're supposed to say '{} who?'.".format(self.you))
+            engine.say("Do you want me to call Agent Wyoming?")
+            engine.runAndWait()
+            response = input()
+
+        fin = "{}".format(self.gary)
+        print(fin)
+        engine.say(fin)
+        engine.runAndWait()
+
+        print("\nWant to hear another one?")
+        engine.say("Want to hear another one?")
+        engine.runAndWait()
+        garry = input()
+        if garry == "No." or garry == "no" or garry == "No" or garry == "no.":
+            print("See you in the next loop.")
+            engine.say("See you in the next loop.")
+            engine.runAndWait()
+            quit()
+
+
+while True:
+    main()
